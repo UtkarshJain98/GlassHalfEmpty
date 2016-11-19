@@ -10,6 +10,8 @@ var path = require('path');
 var axios = require('axios');
 var http = require('http');
 var Clarifai = require('clarifai');
+var twilio = require('twilio');
+
 var app     = express();
 
 
@@ -54,6 +56,18 @@ app.post('/image',function(req,res){
 	
 });
 
+var accountSid = 'AC0b0ba08cc89a36af2cabd83671ccca75'; 
+var authToken = '7e0f05236d7b9432aa8073c6b811ae3c';
+
+var client = new twilio.RestClient(accountSid, authToken);
+
+client.messages.create({
+    body: 'Hello from Node',
+    to: '+14253099634',
+    from: '+18554766086'
+}, function(err, message) {
+    console.log(message.sid);
+});
 
 
 app.listen('8081');
