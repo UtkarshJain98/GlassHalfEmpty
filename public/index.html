@@ -1,22 +1,60 @@
-<html>
+<html ng-app="glass">
 
 <head>
     <title>Glass Half-Empty</title>
     <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
     <link href="style.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+     <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
 <body>
-    <div id="video-container">
- 	 <video id="video" class="webcam"></video>
+	
+	<div class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
+	  <header class="mdl-layout__header mdl-layout__header--transparent">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title"></span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation -->
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+      </nav>
     </div>
-    <img src="" id="photo" style="display:none;">
-    <canvas style="display:none; position: absolute; width:100%; height:auto"></canvas>
-    <script type="text/javascript">
+  </header>
+	  <div class="mdl-layout__drawer">
+	    <span class="mdl-layout-title">Glass Half-Empty</span>
+	    <nav class="mdl-navigation">
+	      <a class="mdl-navigation__link" href="">Link</a>
+	    </nav>
+	  </div>
+	  <main class="mdl-layout__content container">
+		  <video id="video" class="webcam"></video>
+
+	    <img src="" id="photo" style="display:none;">
+	    <canvas style="display:none; position: absolute; width:100%; height:auto" id="canvas"></canvas>
+  		</main>
+  	</div>
+
+
+
+ 	 
+    
+</body>
+<script type="text/javascript">
 
 	var streaming = false,
 	  video        = document.querySelector('#video'),
-	  canvas       = document.querySelector('canvas'),
+	  canvas       = document.querySelector('#canvas'),
 	  photo        = document.querySelector('#photo'),
 	  startbutton  = document.querySelector('#startbutton'),
 	  width = 600,
@@ -60,7 +98,7 @@
 	canvas.width = width;
 	canvas.height = height;
 	canvas.getContext('2d').drawImage(video, 0, 0, width, height);
-	var data = canvas.toDataURL('image/png');
+	var data = canvas.toDataURL('image/jpeg');
 	photo.setAttribute('src', data);
 	console.log(data);
 	}
@@ -69,56 +107,5 @@
 	  takepicture();
 	ev.preventDefault();
 	}, false);
-
-
-/*
-
-    function update(stream) {
-        document.querySelector('video').src = stream.url;
-    }
-
-    function hasGetUserMedia() {
-        return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-    }
-
-    if (!hasGetUserMedia()) {
-        alert('getUserMedia() is not supported in your browser');
-    }
-
-    var errorCallback = function(e) {
-        console.log('Reeeejected!', e);
-    };
-
-    
-    var canvas = document.querySelector('canvas');
-    var video = document.querySelector('video');
-    var localMediaStream = null;
-    var ctx = canvas.getContext('2d');
-
-    navigator.getUserMedia({
-            video:true,
-            audio:false
-         }, function(stream) {
-        video.src = window.URL.createObjectURL(stream);
-        console.log(window.URL.createObjectURL(stream));
-        localMediaStream = stream;
-        video.onloadedmetadata = function(e) {
-
-        };
-    }, errorCallback);
-
-    video.addEventListener('click', snapshot, false);
-
-
-    function snapshot() {
-        if (localMediaStream) {
-            ctx.drawImage(video, 0, 0,);
-            // "image/webp" works in Chrome.
-            // Other browsers will fall back to image/png.
-            document.querySelector('img').src = canvas.toDataURL('image/webp');
-        }
-    }*/
     </script>
-</body>
-
 </html>
