@@ -31,7 +31,7 @@
       </nav>
     </div>
   </header>
-	  <div class="mdl-layout__drawer">
+	  <div class="mdl-layout__drawer" ng-contoller="hoolio">
 	    <span class="mdl-layout-title">Glass Half-Empty</span>
 	    <nav class="mdl-navigation">
 	      <a class="mdl-navigation__link" href="">Link</a>
@@ -40,7 +40,7 @@
 	  <main class="mdl-layout__content container">
 		  <video id="video" class="webcam"></video>
 
-	    <img src="" id="photo" style="display:none;">
+	    <img ng-model="img" src="" id="photo" style="display:none;">
 	    <canvas style="display:none; position: absolute; width:100%; height:auto" id="canvas"></canvas>
   		</main>
   	</div>
