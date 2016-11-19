@@ -17,9 +17,18 @@
   },
   "homepage": "https://github.com/UtkarshJain98/GlassHalfEmpty#readme",
   "dependencies": {
+    "axios": "^0.15.2",
     "body-parser": "^1.15.2",
+    "clarifai": "^2.0.16",
+    "connect-flash": "^0.1.1",
+    "csurf": "^1.9.0",
     "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "flash": "^1.1.0",
     "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "morgan": "^1.7.0",
+    "path": "^0.12.7",
     "request": "^2.79.0"
   }
 }
