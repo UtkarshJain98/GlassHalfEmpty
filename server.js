@@ -10,12 +10,8 @@ var path = require('path');
 var axios = require('axios');
 var http = require('http');
 var Clarifai = require('clarifai');
-<<<<<<< HEAD
 var multer = require('multer');
-var fs = require('fs');
-=======
 var twilio = require('twilio');
->>>>>>> 981c00fc771288e81b2dadb2bca1b7434e395dc2
 
 var app     = express();
 
@@ -114,13 +110,13 @@ var authToken = '7e0f05236d7b9432aa8073c6b811ae3c';
 
 var client = new twilio.RestClient(accountSid, authToken);
 
-client.messages.create({
+/*client.messages.create({
     body: 'Hello from Node',
     to: '+14253099634',
     from: '+18554766086'
 }, function(err, message) {
     console.log(message.sid);
-});
+});*/
 
 
 app.listen('8081');
