@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/UtkarshJain98/GlassHalfEmpty/issues"
   },
-  "homepage": "https://github.com/UtkarshJain98/GlassHalfEmpty#readme"
+  "homepage": "https://github.com/UtkarshJain98/GlassHalfEmpty#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "fs": "0.0.1-security",
+    "request": "^2.79.0"
+  }
 }
