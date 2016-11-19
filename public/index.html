@@ -1,8 +1,124 @@
 <html>
-	<head>
-		<title>Glass Half-Empty</title>
-	</head>
-	<body>
-	
-	</body>
+
+<head>
+    <title>Glass Half-Empty</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+    <link href="style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="video-container">
+ 	 <video id="video" class="webcam"></video>
+    </div>
+    <img src="" id="photo" style="display:none;">
+    <canvas style="display:none; position: absolute; width:100%; height:auto"></canvas>
+    <script type="text/javascript">
+
+	var streaming = false,
+	  video        = document.querySelector('#video'),
+	  canvas       = document.querySelector('canvas'),
+	  photo        = document.querySelector('#photo'),
+	  startbutton  = document.querySelector('#startbutton'),
+	  width = 600,
+	  height = 0;
+
+	navigator.getMedia = ( navigator.getUserMedia ||
+	                     navigator.webkitGetUserMedia ||
+	                     navigator.mozGetUserMedia ||
+	                     navigator.msGetUserMedia);
+
+	navigator.getMedia({
+	  video: true,
+	  audio: false
+	},
+	function(stream) {
+	  if (navigator.mozGetUserMedia) {
+	    video.mozSrcObject = stream;
+	  } else {
+	    var vendorURL = window.URL || window.webkitURL;
+	    video.src = vendorURL.createObjectURL(stream);
+	  }
+	  video.play();
+	},
+	function(err) {
+	  console.log("An error occured! " + err);
+	}
+	);
+
+	video.addEventListener('canplay', function(ev){
+	if (!streaming) {
+	  height = video.videoHeight / (video.videoWidth/width);
+	  video.setAttribute('width', width);
+	  video.setAttribute('height', height);
+	  canvas.setAttribute('width', width);
+	  canvas.setAttribute('height', height);
+	  streaming = true;
+	}
+	}, false);
+
+	function takepicture() {
+	canvas.width = width;
+	canvas.height = height;
+	canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+	var data = canvas.toDataURL('image/png');
+	photo.setAttribute('src', data);
+	console.log(data);
+	}
+
+	video.addEventListener('click', function(ev){
+	  takepicture();
+	ev.preventDefault();
+	}, false);
+
+
+/*
+
+    function update(stream) {
+        document.querySelector('video').src = stream.url;
+    }
+
+    function hasGetUserMedia() {
+        return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+    }
+
+    if (!hasGetUserMedia()) {
+        alert('getUserMedia() is not supported in your browser');
+    }
+
+    var errorCallback = function(e) {
+        console.log('Reeeejected!', e);
+    };
+
+    
+    var canvas = document.querySelector('canvas');
+    var video = document.querySelector('video');
+    var localMediaStream = null;
+    var ctx = canvas.getContext('2d');
+
+    navigator.getUserMedia({
+            video:true,
+            audio:false
+         }, function(stream) {
+        video.src = window.URL.createObjectURL(stream);
+        console.log(window.URL.createObjectURL(stream));
+        localMediaStream = stream;
+        video.onloadedmetadata = function(e) {
+
+        };
+    }, errorCallback);
+
+    video.addEventListener('click', snapshot, false);
+
+
+    function snapshot() {
+        if (localMediaStream) {
+            ctx.drawImage(video, 0, 0,);
+            // "image/webp" works in Chrome.
+            // Other browsers will fall back to image/png.
+            document.querySelector('img').src = canvas.toDataURL('image/webp');
+        }
+    }*/
+    </script>
+</body>
+
 </html>
