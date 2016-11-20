@@ -7,105 +7,99 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
     <script type="text/javascript" src="app.js"></script>
-     <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+    <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
 <body>
-	
-	<div class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
-	  <header class="mdl-layout__header mdl-layout__header--transparent">
-    <div class="mdl-layout__header-row">
-      <!-- Title -->
-      <span class="mdl-layout-title"></span>
-      <!-- Add spacer, to align navigation to the right -->
-      <div class="mdl-layout-spacer"></div>
-      <!-- Navigation -->
-      <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-      </nav>
+    <div class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
+        <header class="mdl-layout__header mdl-layout__header--transparent">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title"></span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Navigation -->
+                <nav class="mdl-navigation">
+                    <a class="mdl-navigation__link" href="">Link</a>
+                    <a class="mdl-navigation__link" href="">Link</a>
+                    <a class="mdl-navigation__link" href="">Link</a>
+                    <a class="mdl-navigation__link" href="">Link</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Glass Half-Empty {{1+1}}</span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="">Link</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content container" ng-controller="WebcamController as webcamCntrl">
+            <video id="video" class="webcam" ng-click="webcamCntrl.sendPic()"></video>
+            <div ng-model="img" id="photo" style="display:none;"></div>
+            <canvas style="display:none; position: absolute; width:100%; height:auto" id="canvas"></canvas>
+        </main>
     </div>
-  </header>
-	  <div class="mdl-layout__drawer">
-	    <span class="mdl-layout-title">Glass Half-Empty {{1+1}}</span>
-	    <nav class="mdl-navigation">
-	      <a class="mdl-navigation__link" href="">Link</a>
-	    </nav>
-	  </div>
-	  <main class="mdl-layout__content container">
-		  <video id="video" class="webcam"></video>
-
-	    <img ng-model="img" src="" id="photo" style="display:none;">
-	    <canvas style="display:none; position: absolute; width:100%; height:auto" id="canvas"></canvas>
-  		</main>
-  	</div>
-
-
-
- 	 
-    
 </body>
 <script type="text/javascript">
+var streaming = false,
+    video = document.querySelector('#video'),
+    canvas = document.querySelector('#canvas'),
+    photo = document.querySelector('#photo'),
+    startbutton = document.querySelector('#startbutton'),
+    width = 600,
+    height = 0;
 
-	var streaming = false,
-	  video        = document.querySelector('#video'),
-	  canvas       = document.querySelector('#canvas'),
-	  photo        = document.querySelector('#photo'),
-	  startbutton  = document.querySelector('#startbutton'),
-	  width = 600,
-	  height = 0;
+navigator.getMedia = (navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia);
 
-	navigator.getMedia = ( navigator.getUserMedia ||
-	                     navigator.webkitGetUserMedia ||
-	                     navigator.mozGetUserMedia ||
-	                     navigator.msGetUserMedia);
+navigator.getMedia({
+        video: true,
+        audio: false
+    },
+    function(stream) {
+        if (navigator.mozGetUserMedia) {
+            video.mozSrcObject = stream;
+        } else {
+            var vendorURL = window.URL || window.webkitURL;
+            video.src = vendorURL.createObjectURL(stream);
+        }
+        video.play();
+    },
+    function(err) {
+        console.log("An error occured! " + err);
+    }
+);
 
-	navigator.getMedia({
-	  video: true,
-	  audio: false
-	},
-	function(stream) {
-	  if (navigator.mozGetUserMedia) {
-	    video.mozSrcObject = stream;
-	  } else {
-	    var vendorURL = window.URL || window.webkitURL;
-	    video.src = vendorURL.createObjectURL(stream);
-	  }
-	  video.play();
-	},
-	function(err) {
-	  console.log("An error occured! " + err);
-	}
-	);
+video.addEventListener('canplay', function(ev) {
+    if (!streaming) {
+        height = video.videoHeight / (video.videoWidth / width);
+        video.setAttribute('width', '100%');
+        video.setAttribute('height', '100%');
+        canvas.setAttribute('width', width);
+        canvas.setAttribute('height', height);
+        streaming = true;
+    }
+}, false);
 
-	video.addEventListener('canplay', function(ev){
-	if (!streaming) {
-	  height = video.videoHeight / (video.videoWidth/width);
-	  video.setAttribute('width', '100%');
-	  video.setAttribute('height', '100%');
-	  canvas.setAttribute('width', width);
-	  canvas.setAttribute('height', height);
-	  streaming = true;
-	}
-	}, false);
+function takepicture() {
+    canvas.width = width;
+    canvas.height = height;
+    canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+    var data = canvas.toDataURL('image/jpeg');
+    photo.setAttribute('src', data);
+    console.log(data);
+}
 
-	function takepicture() {
-	canvas.width = width;
-	canvas.height = height;
-	canvas.getContext('2d').drawImage(video, 0, 0, width, height);
-	var data = canvas.toDataURL('image/jpeg');
-	photo.setAttribute('src', data);
-	console.log(data);
-	}
+video.addEventListener('click', function(ev) {
+    takepicture();
+    ev.preventDefault();
+}, false);
+</script>
 
-	video.addEventListener('click', function(ev){
-	  takepicture();
-	ev.preventDefault();
-	}, false);
-    </script>
 </html>

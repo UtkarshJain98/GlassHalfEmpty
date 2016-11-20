@@ -25,8 +25,11 @@
 	  };
 	});
 
-	app.controller('hoolio', ['$scope', function($scope){
-		socket.emit("testFormData", $scope.img);
+	app.controller('WebcamController', ['$scope','socket', function($scope,socket){
+		$scope.img = "empty";
+		this.sendPic = function(){
+			//socket.emit("testFormData", $scope.img);
+		};
 
 	}]);
 	

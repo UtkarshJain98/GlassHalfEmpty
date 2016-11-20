@@ -21,6 +21,9 @@ var path = require('path').dirname(require.main.filename);
 var publicPath = path + "/public/";
 var obj =[];
 
+server.listen('8081');
+
+
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
@@ -177,7 +180,7 @@ else if((float)obj[2].value < 0.2){
 	});
 }
 
-app.listen('8081');
+//app.listen('8081');
 
 console.log('Magic happens on port 8081');
 
