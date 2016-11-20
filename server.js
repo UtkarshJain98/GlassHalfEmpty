@@ -20,6 +20,9 @@ var io = require('socket.io').listen(server);
 var path = require('path').dirname(require.main.filename);
 var publicPath = path + "/public/";
 
+server.listen('8081');
+
+
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
@@ -143,7 +146,7 @@ var client = new twilio.RestClient(accountSid, authToken);
 });*/
 
 
-app.listen('8081');
+//app.listen('8081');
 
 console.log('Magic happens on port 8081');
 
