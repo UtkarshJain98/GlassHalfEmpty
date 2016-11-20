@@ -15,7 +15,7 @@
 </head>
 
 <body ng-controller="WebcamController as webcamCntrl">
-    <div class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
+    <div class="demo-layout-transparent mdl-layout mdl-js-layout">
         <header class="mdl-layout__header mdl-layout__header--transparent">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
@@ -24,10 +24,8 @@
                 <div class="mdl-layout-spacer"></div>
                 <!-- Navigation -->
                 <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link" href="">Link</a>
-                    <a class="mdl-navigation__link" href="">Link</a>
-                    <a class="mdl-navigation__link" href="">Link</a>
-                    <a class="mdl-navigation__link" href="">Link</a>
+                    <a class="mdl-navigation__link" href="">About</a>
+                    <a class="mdl-navigation__link" href="">Contact</a>
                 </nav>
             </div>
         </header>
@@ -35,6 +33,10 @@
             <span class="mdl-layout-title">Glass Half-Empty {{1+1}}</span>
             <nav class="mdl-navigation">
                 <a class="mdl-navigation__link" href="">Link</a>
+                <h4>Glass Exists: {{glassExists}}</h4>
+                <h4>Glass Empty: {{isEmpty}}</h4>
+                <h4>Water Dirty: {{isDirty}}</h4>
+
             </nav>
         </div>
         <main class="mdl-layout__content container" >
@@ -45,6 +47,10 @@
 
 
             <canvas style="display:none; position: absolute; width:100%; height:auto" id="canvas"></canvas>
+            <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+			  <div class="mdl-snackbar__text"></div>
+			  <button class="mdl-snackbar__action" type="button"></button>
+			</div>
         </main>
     </div>
 </body>
