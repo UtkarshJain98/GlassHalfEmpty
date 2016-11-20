@@ -19,6 +19,7 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 var path = require('path').dirname(require.main.filename);
 var publicPath = path + "/public/";
+var obj =[];
 
 server.listen('8081');
 
@@ -49,6 +50,7 @@ function decodeBase64Image(dataString) {
 var upload = multer(); 
 
 io.sockets.on('connection', function(socket){
+
 	socket.on('testFormData',function(obj,res){	
 		//app.post('/testFormData', upload.array(), function(req, res) {
 		var base64Data = decodeBase64Image(obj.testdot);
@@ -76,7 +78,20 @@ io.sockets.on('connection', function(socket){
 				abc.models.predict("c08302d6bc6f45fca7c86a7ac905e470", url).then(
 				  function(response) {
 				    console.log(response.data);
-				    res(response.data);
+				    obj = [
+				    {
+				    	"id": response.data.conepts[0].id,
+				    	"value": response.data.concepts[0].value
+				    },
+				    {
+				    	"id": response.data.conepts[1].id,
+				    	"value": response.data.concepts[1].value
+				    },
+				    {
+				    	"id": response.data.conepts[2].id,
+				    	"value": response.data.concepts[2].value
+				    }];
+				    res(obj);
 				  },
 				  function(err) {
 				    console.error(err);
@@ -137,14 +152,33 @@ var authToken = '7e0f05236d7b9432aa8073c6b811ae3c';
 
 var client = new twilio.RestClient(accountSid, authToken);
 
-/*client.messages.create({
-    body: 'Hello from Node',
-    to: '+14253099634',
-    from: '+18554766086'
-}, function(err, message) {
-    console.log(message.sid);
-});*/
-
+if((float)obj[1].value > 0.8 && (float)obj[2].value < 0.2){
+	client.messages.create({
+	    body: 'Oops! The Water is not pure and the glass is full as well',
+	    to: '+14253099634',
+	    from: '+18554766086'
+	}, function(err, message) {
+	    console.log(message.sid);
+	});
+}
+else if((float)obj[1].value > 0.8){
+	client.messages.create({
+	    body: 'Looks like your water is not pure!',
+	    to: '+14253099634',
+	    from: '+18554766086'
+	}, function(err, message) {
+	    console.log(message.sid);
+	});
+} 
+else if((float)obj[2].value < 0.2){
+	client.messages.create({
+	    body: 'Close the tap! Your glass is full',
+	    to: '+14253099634',
+	    from: '+18554766086'
+	}, function(err, message) {
+	    console.log(message.sid);
+	});
+}
 
 //app.listen('8081');
 
