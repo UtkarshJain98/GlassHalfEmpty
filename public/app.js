@@ -39,9 +39,9 @@
             socket.emit("testFormData", obj, function(data) {
                 console.log("Ack received")
                 console.log(data); // data will be 'woot'
-                $scope.isEmpty = data.EmptyGlass;
-                $scope.isDirty = data.WaterIsDirty;
-                $scope.glassExists = data.GlassExists;
+                $scope.isEmpty = 100 - (data.EmptyGlass * 100).toFixed(2);
+                $scope.isDirty = (data.WaterIsDirty * 100).toFixed(2);
+                $scope.glassExists = (data.GlassExists * 100).toFixed(2);
             });
 
             //takepicture()
@@ -53,16 +53,17 @@
             var snackbarContainer = document.querySelector('#demo-toast-example');
             var showToastButton = document.querySelector('#demo-show-toast');
 
+            var msg = { message: 'Data Updated.' };
+
             if(data.GlassExists > 0.80)
             {
             	if(data.WaterIsDirty > 0.80 && data.EmptyGlass < 0.8)
             	{
-            		var msg = { message: 'Ooops! Your water is dirty and your glass is full. Turn your tap off and get a filter check.'};	
+            		msg = { message: 'Ooops! Your water is dirty and your glass is full. Turn your tap off and get a filter check.'};	
         		}
-
         		else if(data.WaterIsDirty > 0.80 && data.EmptyGlass > 0.8)
         		{
-        			var msg = { message: 'Ooops! Your glass is full, turn your tap off. Your water seems clean. Good job.' };
+        			msg = { message: 'Ooops! Your glass is full, turn your tap off. Your water seems clean. Good job.' };
         		}
             }
             

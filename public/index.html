@@ -3,7 +3,6 @@
 <head>
     <title>Glass Half-Empty</title>
     <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
-    <link href="style.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
     <script type="text/javascript" src="app.js"></script>
@@ -12,6 +11,8 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link href="style.css" rel="stylesheet" />
+
 </head>
 
 <body ng-controller="WebcamController as webcamCntrl">
@@ -30,12 +31,20 @@
             </div>
         </header>
         <div class="mdl-layout__drawer">
-            <span class="mdl-layout-title">Glass Half-Empty {{1+1}}</span>
+            <!--<span class="mdl-layout-title">Glass Half-Empty</span>-->
             <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" href="">Link</a>
-                <h4>Glass Exists: {{glassExists}}</h4>
-                <h4>Glass Empty: {{isEmpty}}</h4>
-                <h4>Water Dirty: {{isDirty}}</h4>
+                <!--<a class="mdl-navigation__link" href="">Link</a>-->
+                <h4>Water Detection:</h4>
+                <h3><strong class="ptage">{{glassExists}}</strong>%</h3>
+                <p>chance of water body visible</p>
+                <br>
+                <h4>Overflow:</h4>
+                <h3><strong class="ptage">{{isEmpty}}</strong>%</h3>
+                <p>chance of water overflow</p>
+                <br>
+                <h4>Contamination:</h4>
+                <h3><strong class="ptage">{{isDirty}}</strong>%</h3>
+                <p>chance of water body contamination</p>
 
             </nav>
         </div>

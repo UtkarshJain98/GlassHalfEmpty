@@ -9,6 +9,24 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   font-family: "Roboto", sans-serif;
+  color: #0f0f0f;
+}
+
+h4{
+  /*color: #05E9FF;*/
+  color: #ffffff;
+  font-size: 3em;
+  font-family: 'Coolvetica' !important;
+}
+
+h3{
+  color: #fff;
+  opacity: 0.8;
+}
+
+p{
+  color: #fff;
+  opacity: 0.5;
 }
 
 .webcam {
@@ -41,4 +59,24 @@ body {
 
 .mdl-layout__drawer-button{
 	margin-top: 20px !important;
+}
+
+.mdl-layout__drawer{
+  width: 350px;
+  -webkit-transform: translateX(-350px);
+  transform: translateX(-350px);
+  padding-left: 2em;
+  background: #f09433; 
+background: -moz-linear-gradient(45deg, #2ff1fb 0%,#1cc4e9 25%,#0c81c6 50%,#0b74c5 75%,#0141a2 100%); 
+background: -webkit-linear-gradient(45deg, #2ff1fb 0%,#1cc4e9 25%,#0c81c6 50%,#0b74c5 75%,#0141a2 100%); 
+background: linear-gradient(45deg, #2ff1fb 0%,#1cc4e9 25%,#0c81c6 50%,#0b74c5 75%,#0141a2 100%); 
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+  border: none;
+  box-shadow: none;
+}
+
+.ptage{
+  font-size: 3em;
+  font-weight: 100;
+  font-family: Helvetica Neue;  
 }
