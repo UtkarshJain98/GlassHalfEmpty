@@ -14,9 +14,14 @@ var multer = require('multer');
 var twilio = require('twilio');
 
 
+<<<<<<< HEAD
 var app     = express();
 var server = http.createServer(app);
 var io = require('server').listen(server);
+=======
+var path = require('path').dirname(require.main.filename);
+var publicPath = path + "/public/";
+>>>>>>> 0b0d1c9f955a0c53a7674247213d2f0d3f42ca87
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
@@ -87,8 +92,23 @@ io.sockets.on('connection', function(socket)){
 // for parsing multipart/form-data
 
 app.get('/', function (req, res) {
-  res.sendfile(__dirname + '/public/');
+  res.sendFile(__dirname + '/public/');
 });
+
+app.get('/:file', function (req, res) { sendFolder("",req,res); });
+
+
+function sendFolder(folder,req,res) {
+  var fileId = req.params.file;
+  var file = publicPath + folder + "/" + fileId;
+  if(fs.existsSync(file))
+  {
+    res.sendFile(file);
+  }
+  else {
+    res.send("404 not found.");
+  }
+}
 
 var clientID = 'NbVruBOPShFT7IaTpwWVoUnyg9CsWh8ztMqPJ4iE';
 var clientSecret = 'QumS429uhARGJypw9g89C93RsDmJE5nkWfLBM2Ka';
