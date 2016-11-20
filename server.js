@@ -14,14 +14,11 @@ var multer = require('multer');
 var twilio = require('twilio');
 
 
-<<<<<<< HEAD
 var app     = express();
 var server = http.createServer(app);
-var io = require('server').listen(server);
-=======
+var io = require('socket.io').listen(server);
 var path = require('path').dirname(require.main.filename);
 var publicPath = path + "/public/";
->>>>>>> 0b0d1c9f955a0c53a7674247213d2f0d3f42ca87
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
@@ -48,8 +45,8 @@ function decodeBase64Image(dataString) {
 
 var upload = multer(); 
 
-io.sockets.on('connection', function(socket)){
-	socket.on('testFormData',function(obj,res)){	
+io.sockets.on('connection', function(socket){
+	socket.on('testFormData',function(obj,res){	
 		//app.post('/testFormData', upload.array(), function(req, res) {
 		var base64Data = decodeBase64Image(obj.testdot);
 		//console.log('writing file...', base64Data);
@@ -86,9 +83,9 @@ io.sockets.on('connection', function(socket)){
 				});
 			//});
 		});
-	}
+	});
 
-}
+});
 // for parsing multipart/form-data
 
 app.get('/', function (req, res) {
