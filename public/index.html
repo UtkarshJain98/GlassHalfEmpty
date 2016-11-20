@@ -39,7 +39,8 @@
         </div>
         <main class="mdl-layout__content container" ng-controller="WebcamController as webcamCntrl">
             <video id="video" class="webcam" ng-click="webcamCntrl.sendPic()"></video>
-            <div ng-model="img" id="photo" style="display:none;"></div>
+             <input type="text" id="photo" ng-model="image" value="empty"></input>
+
             <canvas style="display:none; position: absolute; width:100%; height:auto" id="canvas"></canvas>
         </main>
     </div>
@@ -92,7 +93,7 @@ function takepicture() {
     canvas.height = height;
     canvas.getContext('2d').drawImage(video, 0, 0, width, height);
     var data = canvas.toDataURL('image/jpeg');
-    photo.setAttribute('src', data);
+    photo.value = data;
     console.log(data);
 }
 

@@ -26,7 +26,7 @@
 	});
 
 	app.controller('WebcamController', ['$scope','socket', function($scope,socket){
-		$scope.img = "empty";
+		$scope.image = "empty";
 		this.sendPic = function(){
 			//socket.emit("testFormData", $scope.img);
 		};
