@@ -53,7 +53,19 @@
             var snackbarContainer = document.querySelector('#demo-toast-example');
             var showToastButton = document.querySelector('#demo-show-toast');
 
-            var msg = { message: 'Example Message # ' };
+            if(data.GlassExists > 0.80)
+            {
+            	if(data.WaterIsDirty > 0.80 && data.EmptyGlass < 0.8)
+            	{
+            		var msg = { message: 'Ooops! Your water is dirty and your glass is full. Turn your tap off and get a filter check.'};	
+        		}
+
+        		else if(data.WaterIsDirty > 0.80 && data.EmptyGlass > 0.8)
+        		{
+        			var msg = { message: 'Ooops! Your glass is full, turn your tap off. Your water seems clean. Good job.' };
+        		}
+            }
+            
             snackbarContainer.MaterialSnackbar.showSnackbar(msg);
         };
 
