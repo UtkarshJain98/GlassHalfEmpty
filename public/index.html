@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
-<body>
+<body ng-controller="WebcamController as webcamCntrl">
     <div class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
         <header class="mdl-layout__header mdl-layout__header--transparent">
             <div class="mdl-layout__header-row">
@@ -37,9 +37,12 @@
                 <a class="mdl-navigation__link" href="">Link</a>
             </nav>
         </div>
-        <main class="mdl-layout__content container" ng-controller="WebcamController as webcamCntrl">
-            <video id="video" class="webcam" ng-click="webcamCntrl.sendPic()"></video>
-             <input type="text" id="photo" ng-model="image" value="empty"></input>
+        <main class="mdl-layout__content container" >
+        <input type="text" id="photo" ng-model="image" value="empty" hidden="hidden"></input>
+
+
+            <video id="video" class="webcam" ng-click="webcamCntrl.sendPic(image)"></video>
+
 
             <canvas style="display:none; position: absolute; width:100%; height:auto" id="canvas"></canvas>
         </main>
@@ -93,7 +96,16 @@ function takepicture() {
     canvas.height = height;
     canvas.getContext('2d').drawImage(video, 0, 0, width, height);
     var data = canvas.toDataURL('image/jpeg');
-    photo.value = data;
+
+    var $scope = angular
+        .element(document.querySelector('[ng-controller="WebcamController as webcamCntrl"]'))
+        .scope();
+
+    $scope.$apply(function() {
+        $scope.image = data;
+    });
+
+    //photo.setAttribute('value', data);
     console.log(data);
 }
 

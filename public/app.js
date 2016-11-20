@@ -26,9 +26,15 @@
 	});
 
 	app.controller('WebcamController', ['$scope','socket', function($scope,socket){
-		$scope.image = "empty";
-		this.sendPic = function(){
-			//socket.emit("testFormData", $scope.img);
+		$scope.image = "emptyyy";
+		this.sendPic = function(data){
+			var obj = {
+				"testdot" : data
+			}
+
+			socket.emit("testFormData", obj);
+			console.log("recieved");
+			console.log(obj);
 		};
 
 	}]);

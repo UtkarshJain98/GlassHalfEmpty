@@ -91,6 +91,7 @@ io.sockets.on('connection', function(socket){
 				    	"id": response.data.conepts[2].id,
 				    	"value": response.data.concepts[2].value
 				    }];
+				    initTwilio(obj);
 				    res(obj);
 				  },
 				  function(err) {
@@ -152,34 +153,35 @@ var authToken = '7e0f05236d7b9432aa8073c6b811ae3c';
 
 var client = new twilio.RestClient(accountSid, authToken);
 
-if((float)obj[1].value > 0.8 && (float)obj[2].value < 0.2){
-	client.messages.create({
-	    body: 'Oops! The Water is not pure and the glass is full as well',
-	    to: '+14253099634',
-	    from: '+18554766086'
-	}, function(err, message) {
-	    console.log(message.sid);
-	});
-}
-else if((float)obj[1].value > 0.8){
-	client.messages.create({
-	    body: 'Looks like your water is not pure!',
-	    to: '+14253099634',
-	    from: '+18554766086'
-	}, function(err, message) {
-	    console.log(message.sid);
-	});
-} 
-else if((float)obj[2].value < 0.2){
-	client.messages.create({
-	    body: 'Close the tap! Your glass is full',
-	    to: '+14253099634',
-	    from: '+18554766086'
-	}, function(err, message) {
-	    console.log(message.sid);
-	});
-}
-
+var initTwilio  = function(obj){
+	if(obj[1].value > 0.8 && obj[2].value < 0.2){
+		client.messages.create({
+		    body: 'Oops! The Water is not pure and the glass is full as well',
+		    to: '+14253099634',
+		    from: '+18554766086'
+		}, function(err, message) {
+		    console.log(message.sid);
+		});
+	}
+	else if(obj[1].value > 0.8){
+		client.messages.create({
+		    body: 'Looks like your water is not pure!',
+		    to: '+14253099634',
+		    from: '+18554766086'
+		}, function(err, message) {
+		    console.log(message.sid);
+		});
+	} 
+	else if(obj[2].value < 0.2){
+		client.messages.create({
+		    body: 'Close the tap! Your glass is full',
+		    to: '+14253099634',
+		    from: '+18554766086'
+		}, function(err, message) {
+		    console.log(message.sid);
+		});
+	}
+};
 //app.listen('8081');
 
 console.log('Magic happens on port 8081');
