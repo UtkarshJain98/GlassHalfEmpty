@@ -13,8 +13,10 @@ var Clarifai = require('clarifai');
 var multer = require('multer');
 var twilio = require('twilio');
 
-var app     = express();
 
+var app     = express();
+var server = http.createServer(app);
+var io = require('server').listen(server);
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
@@ -41,31 +43,48 @@ function decodeBase64Image(dataString) {
 
 var upload = multer(); 
 
-// for parsing multipart/form-data
-app.post('/testFormData', upload.array(), function(req, res) {
-	var base64Data = decodeBase64Image(req.body.testdot);
-	//console.log('writing file...', base64Data);
-	var filename = Date.now() + ".jpg";
-	fs.writeFile(__dirname + "/uploads/" + filename, base64Data.data, function(err) {
-		if (err) {
-			console.log(err);
-			res.send({
-				"success": false,
-				"error": err
-			});
-		}
-		fs.readFile(__dirname + "/uploads/" + filename, function(err, data) {
+io.sockets.on('connection', function(socket)){
+	socket.on('testFormData',function(obj,res)){	
+		//app.post('/testFormData', upload.array(), function(req, res) {
+		var base64Data = decodeBase64Image(obj.testdot);
+		//console.log('writing file...', base64Data);
+		var filename = Date.now() + ".jpg";
+		fs.writeFile(__dirname + "/uploads/" + filename, base64Data.data, function(err) {
 			if (err) {
+				console.log(err);
 				res.send({
 					"success": false,
 					"error": err
 				});
 			}
-			console.log('reading file...', filename);
-			res.send({"success":true, "filename":filename});
+			fs.readFile(__dirname + "/uploads/" + filename, function(err, data) {
+				if (err) {
+					res.send({
+						"success": false,
+						"error": err
+					});
+				}
+				console.log('reading file...', filename);
+				var url = filename;
+				console.log("after urlencoded "+url);
+				// predict the contents of an image by passing in a url
+				abc.models.predict("c08302d6bc6f45fca7c86a7ac905e470", url).then(
+				  function(response) {
+				    console.log(response.data);
+				    res(response.data);
+				  },
+				  function(err) {
+				    console.error(err);
+				    res(err);
+				  });      
+				//res({"success":true, "filename":filename});
+				});
+			//});
 		});
-	});
-});
+	}
+
+}
+// for parsing multipart/form-data
 
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/public/');
@@ -90,19 +109,7 @@ var abc = new Clarifai.App(
 
 
 app.post('/image',function(req,res){
-	var url = req.body.url;
-	console.log("after url "+url);
-	// predict the contents of an image by passing in a url
-	abc.models.predict("c08302d6bc6f45fca7c86a7ac905e470", url).then(
-	  function(response) {
-	    console.log(response.data);
-	    res.send(response.data);
-	  },
-	  function(err) {
-	    console.error(err);
-	  }
-	);
-	
+	              
 });
 
 var accountSid = 'AC0b0ba08cc89a36af2cabd83671ccca75'; 
