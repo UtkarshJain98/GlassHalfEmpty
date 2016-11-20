@@ -80,3 +80,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', end
   font-weight: 100;
   font-family: Helvetica Neue;  
 }
+
+.logo{
+  max-height: 40px;
+  margin-right: 1em;
+}
